@@ -1,0 +1,25 @@
+version: "3.9"
+services:
+  proxy:
+    image: bitnami/nginx:latest
+    restart: always
+    network_mode: bridge
+    ports:
+      - "0.0.0.0:8080:8080/tcp"
+    links:
+      - backend1
+      - backend2
+    volumes:
+      - ${PWD}/nginx/proxy.conf:/opt/bitnami/nginx/conf/server_blocks/proxy.conf:ro
+  backend1:
+    image: bitnami/nginx:latest
+    restart: always
+    network_mode: bridge
+    volumes:
+      - ${PWD}/backend1:/app:ro
+  backend2:
+    image: bitnami/nginx:latest
+    restart: always
+    network_mode: bridge
+    volumes:
+      - ${PWD}/backend2:/app:ro
